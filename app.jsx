@@ -42,24 +42,48 @@ class Timer extends React.Component {
 class TimerCanvas extends Timer {
   constructor(props) {
     super(props);
-    this.x = 0;
-    this.y = 0;
+    this.ships = [ {x: 23, y: 60, vx: 2, vy: 3}, {x: 49, y: 100, vx: 2, vy: 8} ];
+    this.ctx = null;
+  }
+
+  componentDidMount() {
+    this.ctx = this.refs.canvas.getContext('2d');
+    super.componentDidMount();
+  }
+
+  clearCanvas(ctx, width, height) {
+    ctx.clearRect(0, 0, width, height);
+  }
+
+  calcPostions() {
+    this.ships.forEach(ship => { 
+      ship.x+=ship.vx; ship.y+=ship.vy;
+      if (ship.x>400)  { ship.vx=-ship.vx; }
+      if (ship.y>400)  { ship.vy=-ship.vy; }
+      if (ship.x<0)  { ship.vx=-ship.vx; }
+      if (ship.y<0)  { ship.vy=-ship.vy; }
+    });
+  }
+
+  drawShips(ctx) {
+    this.ships.forEach(ship => {
+      ctx.fillRect(ship.x, ship.y, 20, 10); 
+    });
   }
 
   tick() {
-    const ctx = this.refs.canvas.getContext('2d');
-    ctx.fillRect(this.x, this.y, 10, 10);
-    this.x+=2;
-    ++this.y;
+    //console.log('tick');
+    this.clearCanvas(this.ctx,400,400);
+    //this.ctx.clearRect(0, 0, 400, 400);
+    this.calcPostions();
+    this.drawShips(this.ctx);
   }
 
   render() {
     return (
       <canvas ref="canvas" width={400} height={400} style={{ borderWidth: 1, borderStyle: 'solid', borderColor: '#000000' }}>
       </canvas>
-
     );
-
   }
 }
 
