@@ -1,12 +1,12 @@
-class MyClass extends React.Component {
+import React from 'react';
+
+export class MyClass extends React.Component {
   render() {
     return (
       <p>Hello {this.props.name}, I am now loaded. </p>
     );
   }
 }
-
-ReactDOM.render(<MyClass name="Steve" />, document.getElementById('output'));
 
 class Timer extends React.Component {
   constructor(props) {
@@ -39,10 +39,10 @@ class Timer extends React.Component {
   }
 }
 
-class TimerCanvas extends Timer {
+export class TimerCanvas extends Timer {
   constructor(props) {
     super(props);
-    this.ships = [ {x: 23, y: 60, vx: 2, vy: 3}, {x: 49, y: 100, vx: 2, vy: 8} ];
+    this.ships = [ {x: 23, y: 60, vx: 2, vy: 3}, {x: 49, y: 100, vx: 2, vy: 8}, {x: 200, y: 140, vx: 1.2, vy: .6} ];
     this.ctx = null;
   }
 
@@ -59,9 +59,9 @@ class TimerCanvas extends Timer {
     this.ships.forEach(ship => { 
       ship.x+=ship.vx; ship.y+=ship.vy;
       if (ship.x>400)  { ship.vx=-ship.vx; }
-      if (ship.y>400)  { ship.vy=-ship.vy; }
-      if (ship.x<0)  { ship.vx=-ship.vx; }
+      else if (ship.x<0)  { ship.vx=-ship.vx; }
       if (ship.y<0)  { ship.vy=-ship.vy; }
+      else if (ship.y>400)  { ship.vy=-ship.vy; }
     });
   }
 
@@ -72,9 +72,7 @@ class TimerCanvas extends Timer {
   }
 
   tick() {
-    //console.log('tick');
     this.clearCanvas(this.ctx,400,400);
-    //this.ctx.clearRect(0, 0, 400, 400);
     this.calcPostions();
     this.drawShips(this.ctx);
   }
@@ -87,4 +85,3 @@ class TimerCanvas extends Timer {
   }
 }
 
-ReactDOM.render(<TimerCanvas />, document.getElementById('timer'));
