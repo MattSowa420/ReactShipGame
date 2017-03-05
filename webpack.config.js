@@ -1,12 +1,17 @@
 var path = require('path');
+var webpack = require("webpack");
 
 module.exports = {
+  devtool: '#inline-source-map',
+  watch: true,
+
   entry: {
   	javascript: './src/app.js'
   },
   output: {
-    filename: 'app.js',
-    path: path.resolve(__dirname, 'dist')
+    path: path.join(__dirname, 'dist'),
+    publicPath: '/dist/',
+    filename: 'bundle.js',
   },
   resolve: {
     extensions: ['.js', '.jsx', '.json'],
@@ -23,5 +28,8 @@ module.exports = {
     	loader: "file-loader?name=[name].[ext]",
   	  }
     ]
+  },
+  devServer: {
+    host: '0.0.0.0'
   }
-}
+};

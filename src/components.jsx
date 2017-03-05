@@ -23,7 +23,8 @@ class Timer extends React.Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.tick(), 20);
+    this.interval = setInterval(() => this.tick(), 5);
+    console.log('54424234313');
   }
 
   componentWillUnmount() {
@@ -42,13 +43,24 @@ class Timer extends React.Component {
 export class TimerCanvas extends Timer {
   constructor(props) {
     super(props);
-    this.ships = [ {x: 23, y: 60, vx: 2, vy: 3}, {x: 49, y: 100, vx: 2, vy: 8}, {x: 200, y: 140, vx: 1.2, vy: .6} ];
+    this.ships= [];
+    for (let i= 0; i < 30; i++ ) {
+      this.ships.push({
+        x: Math.random()*400,
+        y: Math.random()*400,
+        vx: Math.random()*5,
+        vy: Math.random()*5,
+        width: Math.random()*20,
+        height: Math.random()*20,
+      });
+    }
     this.ctx = null;
   }
 
   componentDidMount() {
-    this.ctx = this.refs.canvas.getContext('2d');
     super.componentDidMount();
+    this.nameCanvas.focus;
+    this.ctx = this.nameCanvas.getContext('2d');
   }
 
   clearCanvas(ctx, width, height) {
@@ -57,29 +69,47 @@ export class TimerCanvas extends Timer {
 
   calcPostions() {
     this.ships.forEach(ship => { 
-      ship.x+=ship.vx; ship.y+=ship.vy;
-      if (ship.x>400)  { ship.vx=-ship.vx; }
-      else if (ship.x<0)  { ship.vx=-ship.vx; }
-      if (ship.y<0)  { ship.vy=-ship.vy; }
-      else if (ship.y>400)  { ship.vy=-ship.vy; }
+      ship.x+= ship.vx; ship.y+= ship.vy;
+      if (ship.x > 400)  { ship.vx= -ship.vx; }
+      else if (ship.x < 0)  { ship.vx= -ship.vx; }
+      if (ship.y < 0)  { ship.vy= -ship.vy; }
+      else if (ship.y > 400)  { ship.vy= -ship.vy; }
     });
   }
 
   drawShips(ctx) {
     this.ships.forEach(ship => {
-      ctx.fillRect(ship.x, ship.y, 20, 10); 
+      ctx.fillRect(ship.x, ship.y, ship.width, ship.height); 
     });
   }
 
   tick() {
-    this.clearCanvas(this.ctx,400,400);
+    this.clearCanvas(this.ctx, 400, 400);
     this.calcPostions();
     this.drawShips(this.ctx);
   }
 
+  onKeyPress(event) {
+    console.log(event.key);
+    if (event.key == 'Enter') {
+      this.ships[0].vx= 0;
+    }
+  }
+
+  onClick(event)
+  {
+    console.log(`!onClick event: ${event.clientX} ${event.clientY}`);
+  }
+
   render() {
     return (
-      <canvas ref="canvas" width={400} height={400} style={{ borderWidth: 1, borderStyle: 'solid', borderColor: '#000000' }}>
+      <canvas onKeyPress= { (event) => this.onKeyPress(event) }
+        autoFocus 
+        tabIndex="0" 
+        onClick= {this.onClick} 
+        ref= { (canvas) => this.nameCanvas = canvas } 
+        width= {400} height= {400} 
+        style={{ borderWidth: 2, borderStyle: 'solid', borderColor: 'blue' }}>
       </canvas>
     );
   }
