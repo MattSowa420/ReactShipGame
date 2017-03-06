@@ -23,7 +23,7 @@ class Timer extends React.Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.tick(), 5);
+    this.interval = setInterval(() => this.tick(), 50);
     console.log('54424234313');
   }
 
@@ -54,13 +54,12 @@ export class TimerCanvas extends Timer {
         height: Math.random()*20,
       });
     }
-    this.ctx = null;
+    this.ctx= null;
   }
 
   componentDidMount() {
     super.componentDidMount();
-    this.nameCanvas.focus;
-    this.ctx = this.nameCanvas.getContext('2d');
+    this.ctx= this.nameCanvas.getContext('2d');
   }
 
   clearCanvas(ctx, width, height) {
@@ -78,15 +77,15 @@ export class TimerCanvas extends Timer {
   }
 
   drawShips(ctx) {
-    this.ships.forEach(ship => {
-      ctx.fillRect(ship.x, ship.y, ship.width, ship.height); 
+    this.ships.forEach( ship => {
+      ctx.fillRect( ship.x, ship.y, ship.width, ship.height); 
     });
   }
 
   tick() {
-    this.clearCanvas(this.ctx, 400, 400);
+    this.clearCanvas( this.ctx, 400, 400);
     this.calcPostions();
-    this.drawShips(this.ctx);
+    this.drawShips( this.ctx);
   }
 
   onKeyPress(event) {
@@ -104,8 +103,6 @@ export class TimerCanvas extends Timer {
   render() {
     return (
       <canvas onKeyPress= { (event) => this.onKeyPress(event) }
-        autoFocus 
-        tabIndex="0" 
         onClick= {this.onClick} 
         ref= { (canvas) => this.nameCanvas = canvas } 
         width= {400} height= {400} 
