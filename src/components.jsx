@@ -23,7 +23,7 @@ class Timer extends React.Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => this.tick(), 50);
+    this.interval = setInterval(() => this.tick(), 5);
     console.log('54424234313');
   }
 
@@ -44,7 +44,7 @@ export class TimerCanvas extends Timer {
   constructor(props) {
     super(props);
     this.ships= [];
-    for (let i= 0; i < 30; i++ ) {
+    for (let i= 0; i < 10; i++ ) {
       this.ships.push({
         x: Math.random()*400,
         y: Math.random()*400,
